@@ -9,7 +9,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-public class UtilFromExcel {
+public class LoginCredentialsExcel {
 
 
     //    Open Stream
@@ -57,5 +57,5 @@ public class UtilFromExcel {
     @DataProvider
     public Object[][] getData() {
         return getTestData("cred");
-    }//2:10
+    }
 }

@@ -5,14 +5,15 @@ import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
-import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class CreateBookingNonBDD {
+public class CreateBookingNonBDD02 {
 
     RequestSpecification req = RestAssured.given();
     Response res;
     ValidatableResponse valRes;
+    String token;
+    String bookingId;
 
     @Test
     public void nonBDDCreateBooking()
@@ -29,20 +30,20 @@ public class CreateBookingNonBDD {
                 "    \"additionalneeds\" : \"Breakfast\"\n" +
                 "}";
 
-        String token = "442d250bf3dbcf0";
-
-
         req.baseUri("https://restful-booker.herokuapp.com").basePath("/booking");
         req.contentType(ContentType.JSON);
-        req.cookie("token",token);
 
         req.body(payload).log().all();
 
         res= req.when().post();
+        //res.then().log().all().statusCode(200);
 
-        valRes = res.then().log().all();
-        valRes.statusCode(200);
-        Assert.assertEquals("Avijeet","Avijeet");
+        bookingId = res.then().log().all().extract().toString();
+        System.out.println("Response is = "+bookingId);
+
+        //valRes = res.then().log().all();
+        //valRes.statusCode(200);
+        //Assert.assertEquals("Avijeet","Avijeet");
         //valRes.body("firstname", Matchers.equalTo("Avijeet"));
         //valRes.body("lastname", Matchers.equalTo("Sharmaa"));
 

@@ -1,4 +1,4 @@
-package org.example.CRUD.POST;
+package org.example.misc;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
@@ -8,11 +8,14 @@ import io.restassured.specification.RequestSpecification;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class CreateBookingNonBDD {
+public class PayloadUsingString {
 
     RequestSpecification req = RestAssured.given();
     Response res;
     ValidatableResponse valRes;
+
+    Integer bookingId;
+
 
     @Test
     public void nonBDDCreateBooking()
@@ -29,22 +32,19 @@ public class CreateBookingNonBDD {
                 "    \"additionalneeds\" : \"Breakfast\"\n" +
                 "}";
 
-        String token = "442d250bf3dbcf0";
 
 
         req.baseUri("https://restful-booker.herokuapp.com").basePath("/booking");
         req.contentType(ContentType.JSON);
-        req.cookie("token",token);
 
         req.body(payload).log().all();
 
         res= req.when().post();
+        bookingId = res.then().extract().path("bookingid");
 
         valRes = res.then().log().all();
         valRes.statusCode(200);
-        Assert.assertEquals("Avijeet","Avijeet");
-        //valRes.body("firstname", Matchers.equalTo("Avijeet"));
-        //valRes.body("lastname", Matchers.equalTo("Sharmaa"));
+        System.out.println("Booking ID is :- "+bookingId);
 
     }
 }
